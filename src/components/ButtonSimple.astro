@@ -1,28 +1,14 @@
 ---
-import { Icon } from "astro-icon";
+const { variant, href } = Astro.props;
 
-const { variant = "secondary", href, ...rest } = Astro.props as Props;
+let Tag = "button";
 
-interface Props {
-  variant: "primary" | "secondary" | "tertiary";
-  href?: string;
+if (href) {
+  Tag = "a";
 }
-
-const Tag = href ? "a" : "button";
-
-const options = {
-  a: {
-    props: { href },
-  },
-  button: {
-    props: { ...rest },
-  },
-};
-
-const { props } = options[Tag];
 ---
 
-<Tag data-variant={variant} data-tag-type={Tag.toLowerCase()} {...props}>
+<Tag data-variant={variant} {href}>
   <slot />
 </Tag>
 
@@ -40,7 +26,7 @@ const { props } = options[Tag];
   }
 
   [data-variant]:is(main *)::after {
-    content: "<" attr(data-tag-type) ">";
+    content: "<a>";
     position: absolute;
     inset: 0;
     translate: 0 calc(100% + 2px);
@@ -49,6 +35,10 @@ const { props } = options[Tag];
     display: block;
     font-size: 0.8rem;
     font-weight: 700;
+  }
+
+  [data-variant]:is(main button)::after {
+    content: "<button>";
   }
 
   [data-variant="primary"] {

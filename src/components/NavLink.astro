@@ -2,7 +2,15 @@
 const { href, text } = Astro.props;
 
 const { pathname } = Astro.url;
-const isActive = href === "/" ? pathname === href : pathname.includes(href);
+
+const isActive = href === "/" ? pathname === href : pathname.startsWith(href);
+
+// let isActive = false;
+// if (href === "/") {
+//   isActive = pathname === href;
+// } else {
+//   isActive = pathname.startsWith(href);
+// }
 ---
 
 <li>
